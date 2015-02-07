@@ -4,6 +4,10 @@ $(document).ready(function() {
         $('#row-hide').hide();
     }
 
+    if(window.localStorage.getItem("fastmode") === "true") {
+        fastMode = true;
+    }
+
     if(window.localStorage.getItem("colormap") !== undefined) {
         colorMap = JSON.parse(window.localStorage.getItem("colormap"));
     }   
@@ -43,10 +47,13 @@ $(document).ready(function() {
         $('#settings-modal').closeModal();
 
         setColorScheme(color);
+        window.localStorage.setItem("fastmode", $('#fastmode').attr('checked'));
+        fastMode = $('#fastmode').attr('checked');
     });
 
 });
 
+var fastMode = false;
 var colorMap = ["#2D7B86", "#DB8E47", "#DB5147"];
 
 function setScheme(col1, col2, col3) {
@@ -88,6 +95,40 @@ function hideSpinner() {
     $('#spinner').css('visibility', 'hidden');
 }
 
+var queue = {
+    _timer: null,
+    _queue: [],
+    add: function(fn, context, time) {
+    var setTimer = function(time) {
+        queue._timer = setTimeout(function() {
+            time = queue.add();
+            if (queue._queue.length) {
+                setTimer(time);
+            }
+        }, time || 1);
+    }
+
+    if (fn) {
+        queue._queue.push([fn, context, time]);
+        if (queue._queue.length == 1) {
+            setTimer(time);
+        }
+        return;
+    }
+
+    var next = queue._queue.shift();
+    if (!next) {
+        return 0;
+    }
+    next[0].call(next[1] || window);
+    return next[2];
+},
+clear: function() {
+    clearTimeout(queue._timer);
+    queue._queue = [];
+}
+};
+
 $.fn.redraw = function(){
       $(this).each(function(){
               var redraw = this.offsetHeight;
@@ -97,10 +138,8 @@ $.fn.redraw = function(){
 var numItems = 0;
 function updateLoadState() {
 
-    if((numItems % 100) == 0) {
-        $('#load-state').text("Loaded " + numItems + " datapoints.");
-        $('#load-state').redraw();
-    }
+    $('#load-state').text("Loaded " + numItems + " datapoints.");
+    $('#load-state').redraw();
 
     numItems++;
 }
@@ -125,14 +164,34 @@ function parseCSV(file) {
         worker: true,
         skipEmptyLines: true,
         step: function(result) {
-            updateLoadState();
-            handleSamples(result.data);
+            var data = result.data;
+            var self = this, doBind = function() {
+                updateLoadState();
+                handleSamples(data);
+            };
+
+            if(!fastMode) {
+                queue.add(doBind, this);
+            } else {
+                doBind();
+            }
+
         },
         complete: function() {
-            clearLoadState();
-            checkSingle();
-            drawAll();
-            hideSpinner();
+            var self = this, doBind = function() {
+                clearLoadState();
+                checkSingle();
+                drawAll();
+                hideSpinner();
+           
+                $('#export-button').attr('href', canvas.toDataURL("image/png"));
+            };
+            
+            if(!fastMode) {
+                queue.add(doBind, this);
+            } else {
+                doBind();
+            }
 
             var $panzoom = $('.panzoom').panzoom();
 
@@ -147,7 +206,7 @@ function parseCSV(file) {
                 });
            });
 
-        }
+       }
     });
 }
 

@@ -109,11 +109,23 @@ nav {
     width: 200px;
 }
 
-.valign-wrapper, .spinner, .spinner-layer {
+.valign-wrapper, .spinner, .spinner-layer, .valign {
     z-index: 30;
+    position: relative;
 }
 
 nav .nav-wrapper i {
     margin-right: 6px;
     font-size: 1rem;
+}
+
+.progress {
+    z-index: 30;
+    position: relative;
+    background-color: rgba(0,0,0,0);
+    width: 50%;
+}
+
+#spinner {
+    visibility: hidden;
 }

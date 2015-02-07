@@ -23,6 +23,7 @@
                     <li id="load-state"></li>
                     <li><a href="#" id="setttings-button"><i class="fa fa-cogs"></i>Settings</a></li>
                     <li><a href="#" id="open-button"><i class="fa fa-folder-open-o"></i>Open CSV</a></li>
+                    <li><a href="#" id="export-button"><i class="fa fa-folder-open-o"></i>Save PNG</a></li>
                 </ul>
             </div>
         </nav>
@@ -49,16 +50,8 @@
             </div>
         </div>
         <div class="valign-wrapper">
-            <div class="preloader-wrapper big active spinner valign">
-              <div class="spinner-layer spinner-blue hidden" id="spinner">
-                <div class="circle-clipper left">
-                  <div class="circle"></div>
-                </div><div class="gap-patch">
-                  <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                  <div class="circle"></div>
-                </div>
-              </div>
+            <div class="big active valign progress" id="spinner">
+                <div class="indeterminate"></div>
             </div>
         </div>
 
@@ -76,6 +69,11 @@
         </div>
         <div id="settings-modal" class="modal white-text">
             <h4>Settings</h4>
+            <br>
+            <p>
+                <input name="fastmode" id="fastmode" type="checkbox">
+                <label for="fastmode">Fast CSV parsing. (Browser may become unresponsive!)</label>
+            </p>
             <br>
             <p>
                 <input name="color-scheme" type="radio" id="scheme1" value="1">
