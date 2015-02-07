@@ -95,10 +95,12 @@ function showSettings() {
 
 function showSpinner() {
     $('#spinner').css('visibility', 'visible');
+    $('.valign-wrapper').css('display', 'block');
 }
 
 function hideSpinner() {
     $('#spinner').css('visibility', 'hidden');
+    $('.valign-wrapper').css('display', 'none');
 }
 
 var queue = {
