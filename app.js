@@ -264,6 +264,33 @@ function drawAll() {
             ctx.fillRect(x*ppw, y*pph, ppw, pph);
         }
     }
+
+    drawLabels(width);
+}
+
+var numLabels = 10;
+
+function formatFreq(freq) {
+    if(freq > 1e6) {
+        return (parseInt(freq)/1e6).toFixed(2) + "M";
+    } else if(freq > 1e3) {
+        return (parseInt(freq)/1e3).toFixed(2) + "k";
+    } else {
+        return freq;
+    }
+}
+
+function drawLabels(width) {
+    var step = width/numLabels;
+    var frqStep = (freqMax-freqMin)/numLabels;
+    
+    for(var i = 0; i <= numLabels; i++) {
+        var frq = frqStep*i;
+
+        ctx.font="14px Georgia";
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(formatFreq(frq+freqMin),Math.round(step*i),10);
+    }
 }
 
 function redraw() {
