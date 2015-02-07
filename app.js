@@ -95,7 +95,7 @@ function showSettings() {
 
 function showSpinner() {
     $('#spinner').css('visibility', 'visible');
-    $('.valign-wrapper').css('display', 'block');
+    $('.valign-wrapper').css('display', '');
 }
 
 function hideSpinner() {
