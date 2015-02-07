@@ -299,7 +299,7 @@ function drawAll() {
         }
     }
 
-    drawLabels(width);
+    drawLabels(canvas.width);
 }
 
 var numLabels = 10;
