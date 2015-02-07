@@ -47,8 +47,14 @@ $(document).ready(function() {
         $('#settings-modal').closeModal();
 
         setColorScheme(color);
-        window.localStorage.setItem("fastmode", $('#fastmode').attr('checked'));
-        fastMode = $('#fastmode').attr('checked');
+        var fmode = $('#fastmode').attr('checked');
+
+        if(fmode === undefined) {
+            fmode = true;
+        }
+
+        window.localStorage.setItem("fastmode", fmode);
+        fastMode = fmode;
     });
 
 });
