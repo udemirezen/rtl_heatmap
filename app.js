@@ -88,8 +88,30 @@ function hideSpinner() {
     $('#spinner').css('visibility', 'hidden');
 }
 
+$.fn.redraw = function(){
+      $(this).each(function(){
+              var redraw = this.offsetHeight;
+                });
+};
+
+var numItems = 0;
+function updateLoadState() {
+
+    if((numItems % 100) == 0) {
+        $('#load-state').text("Loaded " + numItems + " datapoints.");
+        $('#load-state').redraw();
+    }
+
+    numItems++;
+}
+
+function clearLoadState() {
+    $('#load-state').text("");
+}
+
 function parseCSV(file) {
     img = [];
+    numItems = 0;
     minDb = null;
     maxDb = null;
     freqMin = null;
@@ -103,9 +125,11 @@ function parseCSV(file) {
         worker: true,
         skipEmptyLines: true,
         step: function(result) {
+            updateLoadState();
             handleSamples(result.data);
         },
         complete: function() {
+            clearLoadState();
             checkSingle();
             drawAll();
             hideSpinner();
