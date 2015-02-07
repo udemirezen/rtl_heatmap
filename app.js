@@ -59,7 +59,7 @@ function setScheme(col1, col2, col3) {
 function setColorScheme(scheme) {
     switch(parseInt(scheme)) {
         case 1:
-            setScheme("#2D7B86", "#DB8E47", "#0C2023");
+            setScheme("#2D7B86", "#DB8E47", "#DB5147");
             break;
 
         case 2:
