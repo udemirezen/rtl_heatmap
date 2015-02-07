@@ -1,13 +1,16 @@
 $(document).ready(function() {
     if(window.localStorage.getItem("welcomed") === "true") {
         $('.open-file').hide();
+        $('#row-hide').hide();
     }
 
     $('#dismiss-button').click(function(ev) {
         ev.stopPropagation();
 
         window.localStorage.setItem("welcomed", true);
-        $('.open-file').fadeOut(200);
+        $('.open-file').fadeOut(200, function() {
+            $('#row-hide').hide();   
+        });
     });
 
     $('#open-button').click(function(ev) {
