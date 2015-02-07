@@ -1,5 +1,5 @@
 # rtl_heatmap
-![alt tag](https://raw.github.com/donothingloop/rtl_heatmap/img/heatmap.png)
+![alt tag](https://raw.githubusercontent.com/donothingloop/rtl_heatmap/master/img/heatmap.png)
 ===========
 
 Viewer for rtl_power CSV files written in pure JS and HTML5
