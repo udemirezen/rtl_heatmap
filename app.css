@@ -93,3 +93,22 @@ nav {
 .hidden {
     visibility: hidden;
 }
+
+.scheme {
+    margin-left: 20px;
+}
+
+.scheme span {
+    content: ' ';
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+#settings-modal p label {
+    width: 200px;
+}
+
+.valign-wrapper, .spinner, .spinner-layer {
+    z-index: 30;
+}

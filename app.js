@@ -4,6 +4,10 @@ $(document).ready(function() {
         $('#row-hide').hide();
     }
 
+    if(window.localStorage.getItem("colormap") !== undefined) {
+        colorMap = JSON.parse(window.localStorage.getItem("colormap"));
+    }   
+
     $('#dismiss-button').click(function(ev) {
         ev.stopPropagation();
 
@@ -26,7 +30,55 @@ $(document).ready(function() {
         parseCSV(file);
     });
 
+    $('#setttings-button').click(function(ev) {
+        ev.stopPropagation();
+
+        showSettings();
+    });
+
+    $('#save-btn').click(function(ev) {
+        ev.stopPropagation();
+
+        var color = $('input:radio[name=color-scheme]').filter(":checked").val();
+        $('#settings-modal').closeModal();
+
+        setColorScheme(color);
+    });
+
 });
+
+var colorMap = ["#2D7B86", "#DB8E47", "#DB5147"];
+
+function setScheme(col1, col2, col3) {
+    colorMap = [col1, col2, col3];
+    window.localStorage.setItem("colormap", JSON.stringify(colorMap));
+
+    redraw();
+}
+
+function setColorScheme(scheme) {
+    switch(parseInt(scheme)) {
+        case 1:
+            setScheme("#2D7B86", "#DB8E47", "#0C2023");
+            break;
+
+        case 2:
+            setScheme("#0000bd", "#a7ff58", "#840000");
+            break;
+
+        case 3:
+            setScheme("#ffffff", "#ff7f00", "#2F0000");
+            break;
+
+        case 4:
+            setScheme("#00ffff", "#7788ff", "#ff00ff");
+            break;
+    }
+}
+
+function showSettings() {
+    $('#settings-modal').openModal();    
+}
 
 function showSpinner() {
     $('#spinner').css('visibility', 'visible');
@@ -178,7 +230,10 @@ function draw(samps, min, max, step, time) {
     img.push(line);
 }
 
+var drawed = false;
+
 function drawAll() {
+    drawed = true;
     var height = Math.min(img.length, 16000);
     var width = img[0].length;
     
@@ -198,7 +253,7 @@ function drawAll() {
     console.log("[Rendering image] minFreq: " + freqMin + ", maxFreq: " + freqMax + ", width: " + width + ", height: " + height + ", PpH: " + pph + ", PpW: "+ ppw);
     console.log("min db: "+ minDb + ", max db: " + maxDb);
 
-    var scale = chroma.scale(["#2D7B86", "#DB8E47", "#DB5147"]);
+    var scale = chroma.scale(colorMap);
 
     for(var y = 0; y < height; y++) {
         for(var x = 0; x < width; x++) {
@@ -211,24 +266,10 @@ function drawAll() {
     }
 }
 
-function drawLine() {
-    var height = img.length;
-    var width = img[0].length;
-    
-    var pph = Math.round($(canvas).height()/height);
-    var ppw = Math.round($(canvas).width()/width);
-
-    var scale = chroma.scale(["#0C2023", "#DB8E47", "#2D7B86"]);
-
-    for(var y = 0; y < height; y++) {
-        for(var x = 0; x < width; x++) {
-            var db = Math.round(img[y][x]);
-            var dbP = (((db)-10)/(35-10));
-            var color = scale(dbP).hex();
-
-            ctx.fillStyle = color;
-            //ctx.fillRect(x*ppw, y*pph, ppw, pph);
-            ctx.fillRect(x, y, 1, 1);
-        }
+function redraw() {
+    if(!drawed) {
+        return;
     }
+
+    drawAll();
 }

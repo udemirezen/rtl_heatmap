@@ -19,6 +19,7 @@
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">RTL_POWER spectrum viewer</a>
                 <ul id="nav-mobile" class="right side-nav">
+                    <li><a href="#" id="setttings-button">Settings</a></li>
                     <li><a href="#" id="open-button">Open CSV</a></li>
                 </ul>
             </div>
@@ -69,6 +70,34 @@
             <br>
             <div>
                 <a class="waves-effect waveslight btn" id="display-btn" class="display-btn">Display</a> 
+            </div>
+        </div>
+        <div id="settings-modal" class="modal white-text">
+            <h4>Settings</h4>
+            <br>
+            <p>
+                <input name="color-scheme" type="radio" id="scheme1" value="1">
+                <label for="scheme1">Default Flat</label>
+                <span class="scheme"><span style="background-color: #2D7B86"></span><span style="background-color: #DB8E47"></span><span style="background-color: #0C2023"></span></span>
+            </p>
+            <p>
+                <input name="color-scheme" type="radio" id="scheme2" value="2">
+                <label for="scheme2">Jet</label>
+                <span class="scheme" style="margin-left: 20px;"><span style="background-color: #0000bd"></span><span style="background-color: #a7ff58"></span><span style="background-color: #840000"></span></span>
+            </p>
+            <p>
+                <input name="color-scheme" type="radio" id="scheme3" value="3">
+                <label for="scheme3">Hot</label>
+                <span class="scheme"><span style="background-color: #ffffff"></span><span style="background-color: #ff7f00"></span><span style="background-color: #2F0000"></span></span>
+            </p>
+            <p>
+                <input name="color-scheme" type="radio" id="scheme4" value="4">
+                <label for="scheme4">Cool</label>
+                <span class="scheme"><span style="background-color: #00ffff"></span><span style="background-color: #7788ff"></span><span style="background-color: #ff00ff"></span></span>
+            </p>
+            <br>
+            <div>
+                <a class="waves-effect waveslight btn" id="save-btn" class="display-btn">Save</a> 
             </div>
         </div>
     </body>
