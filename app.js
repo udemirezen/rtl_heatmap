@@ -100,6 +100,7 @@ function parseCSV(file) {
             handleSamples(result.data);
         },
         complete: function() {
+            checkSingle();
             drawAll();
             hideSpinner();
 
@@ -194,6 +195,15 @@ function handleSamples(dat) {
     }
 }
 
+function checkSingle() {
+    if(sweep.length > 0) {
+        img.push(sweep.slice(0));
+        sweep = [];
+        lastTime = null;
+        curSamps = [];
+    }
+}
+
 var canvas = null;
 var ctx = null;
 var pntWidth = 0;
@@ -234,13 +244,37 @@ var drawed = false;
 
 function drawAll() {
     drawed = true;
-    var height = Math.min(img.length, 16000);
-    var width = img[0].length;
-    
-    var pph = Math.max(Math.round($(canvas).height()/height), 1);
-    var ppw = Math.max(Math.round($(canvas).width()/width), 1);
 
     canvas = document.getElementById('spectrum');
+    var height = img.length;
+    var scaleH = 1;
+
+    if(height > 16000) {
+        while((height/scaleH) > 16000) {
+             scaleH *= 2;
+        }
+    }   
+
+    if(height == 0) {
+        toast('The image was empty or an unknown error occured.', 4000);
+        return;
+    }   
+
+    var width = img[0].length;
+    var scaleW = 1;
+
+    if(width > 16000) {
+        while((width/scaleW) > 16000) {
+             scaleW *= 2;
+        }
+    }
+
+    width = width/scaleW;
+    height = height/scaleH;
+
+    var pph = Math.max(Math.round(canvas.height/height), 1);
+    var ppw = Math.max(Math.round(canvas.width/width), 1);
+
     $(canvas).height(pph*height);
     $(canvas).width(ppw*width);
 
