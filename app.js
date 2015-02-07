@@ -92,6 +92,12 @@ function parseCSV(file) {
     img = [];
     minDb = null;
     maxDb = null;
+    freqMin = null;
+    freqMax = null;
+    sweep = [];
+    lastTime = null;
+    curSamps = [];
+    freqs = [];
 
     Papa.parse(file.prop('files')[0], {
         worker: true,
@@ -283,6 +289,7 @@ function drawAll() {
 
     ctx = canvas.getContext('2d');
     ctx.scale(1, 1);
+    ctx.save();
 
     console.log("[Rendering image] minFreq: " + freqMin + ", maxFreq: " + freqMax + ", width: " + width + ", height: " + height + ", PpH: " + pph + ", PpW: "+ ppw);
     console.log("min db: "+ minDb + ", max db: " + maxDb);
@@ -300,6 +307,8 @@ function drawAll() {
     }
 
     drawLabels(canvas.width);
+
+    ctx.restore();
 }
 
 var numLabels = 10;
