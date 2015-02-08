@@ -47,11 +47,7 @@ $(document).ready(function() {
         $('#settings-modal').closeModal();
 
         setColorScheme(color);
-        var fmode = $('#fastmode').attr('checked');
-
-        if(fmode === undefined) {
-            fmode = true;
-        }
+        var fmode = $('#fastmode').is(':checked');
 
         window.localStorage.setItem("fastmode", fmode);
         fastMode = fmode;
