@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     if(window.localStorage.getItem("welcomed") === "true") {
         $('.open-file').hide();
         $('#row-hide').hide();
@@ -8,9 +9,15 @@ $(document).ready(function() {
         fastMode = true;
     }
 
+    if(window.localStorage.getItem("freqnr") !== undefined) {
+        freqNr = parseInt(window.localStorage.getItem("freqnr"));
+    }
+
     if(window.localStorage.getItem("colormap") !== undefined) {
         colorMap = JSON.parse(window.localStorage.getItem("colormap"));
     }   
+
+    displaySettings();
 
     $('#dismiss-button').click(function(ev) {
         ev.stopPropagation();
@@ -39,6 +46,11 @@ $(document).ready(function() {
 
         showSettings();
     });
+    
+    $('#close-btn').click(function(ev) {
+        ev.stopPropagation();
+        $('#settings-modal').closeModal();
+    });
 
     $('#save-btn').click(function(ev) {
         ev.stopPropagation();
@@ -48,14 +60,25 @@ $(document).ready(function() {
 
         setColorScheme(color);
         var fmode = $('#fastmode').is(':checked');
-
+        freqNr = $('#freqNr').val();
+    
         window.localStorage.setItem("fastmode", fmode);
+        window.localStorage.setItem("freqnr", freqNr);
         fastMode = fmode;
     });
 
 });
 
+function displaySettings() {
+    $('#freqNr').val(freqNr);
+
+    if(fastMode) {
+        $('#fastmode').attr('checked', 'true');
+    }
+}
+
 var fastMode = false;
+var freqNr = 20;
 var colorMap = ["#2D7B86", "#DB8E47", "#DB5147"];
 
 function setScheme(col1, col2, col3) {
@@ -353,7 +376,7 @@ function drawAll() {
     for(var y = 0; y < height; y++) {
         for(var x = 0; x < width; x++) {
             var db = Math.round(img[y][x]);
-            var dbP = ((90-db)-minDb)/(maxDb-minDb);
+            var dbP = ((102-db)-minDb)/(maxDb-minDb);
             var color = scale(dbP).hex();
             ctx.fillStyle = color;
             ctx.fillRect(x*ppw, y*pph, ppw, pph);
@@ -364,8 +387,6 @@ function drawAll() {
 
     ctx.restore();
 }
-
-var numLabels = 10;
 
 function formatFreq(freq) {
     if(freq > 1e6) {
@@ -378,15 +399,15 @@ function formatFreq(freq) {
 }
 
 function drawLabels(width) {
-    var step = width/numLabels;
-    var frqStep = (freqMax-freqMin)/numLabels;
+    var step = width/freqNr;
+    var frqStep = (freqMax-freqMin)/freqNr;
     
-    for(var i = 0; i <= numLabels; i++) {
+    for(var i = 0; i <= freqNr; i++) {
         var frq = frqStep*i;
 
         ctx.font="14px Georgia";
         ctx.fillStyle = "#ffffff";
-        ctx.fillText(formatFreq(frq+freqMin),Math.round(step*i),10);
+        ctx.fillText(formatFreq(frq+freqMin),Math.round(step*i),20);
     }
 }
 

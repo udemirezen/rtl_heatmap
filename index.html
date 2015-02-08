@@ -87,6 +87,11 @@
                 <label for="fastmode">Fast CSV parsing. (Browser may become unresponsive!)</label>
             </p>
             <br>
+            <p class="range-field">
+                <input type="range" id="freqNr" min="0" max="200" />
+                <label for="freqNr">Number of frequency markings</label>
+            </p>
+            <br>
             <p>
                 <input name="color-scheme" type="radio" id="scheme1" value="1">
                 <label for="scheme1">Default Flat</label>
@@ -110,6 +115,7 @@
             <br>
             <div>
                 <a class="waves-effect waveslight btn" id="save-btn" class="display-btn">Save</a> 
+                <a class="waves-effect waveslight btn" id="close-btn" class="display-btn">Close</a> 
             </div>
         </div>
     </body>
