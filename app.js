@@ -167,7 +167,7 @@ function parseCSV(file) {
     lastTime = null;
     curSamps = [];
     freqs = [];
-    
+
     Papa.parse(file.prop('files')[0], {
         worker: true,
         skipEmptyLines: true,
@@ -255,34 +255,40 @@ function handleSamples(dat) {
     
     // check if a new sweep has started
     if(lastTime != null && +ptime != +lastTime) {
+        //draw(sweep, freqMin, freqMax, step, lastTime);
+
         // clone sweep and add it to the image
         img.push(sweep.slice(0));
+
         sweep = [];
         lastTime = null;
         curSamps = [];
-    }
+    } else {
+        lastTime = ptime;
 
-    lastTime = ptime;
-
-    if(freqMin === null || curMin < freqMin) {
-        freqMin = curMin;
-    }
-
-    if(freqMax === null || curMax > freqMax) {
-        freqMax = curMax;
-    }
-
-    for(var i = 6; i < data.length; i++) {
-        var db = parseFloat(String(data[i]).replace(' ', '').replace('-', ''));
-        sweep.push(db);
-
-        if(maxDb === null || (100-db) > maxDb) {
-            maxDb = 100-db;
+        if(freqMin === null || curMin < freqMin) {
+            freqMin = curMin;
         }
 
-        if(minDb === null || (100-db) < minDb) {
-            minDb = 100-db;
+        if(freqMax === null || curMax > freqMax) {
+            freqMax = curMax;
         }
+
+        var freq = curMin;
+
+        for(var i = 6; i < data.length; i++) {
+            var db = parseFloat(String(data[i]).replace(' ', '').replace('-', ''));
+            sweep.push(db);
+
+            if(maxDb === null || (100-db) > maxDb) {
+                maxDb = 100-db;
+            }
+
+            if(minDb === null || (100-db) < minDb) {
+                minDb = 100-db;
+            }
+        }
+
     }
 }
 
@@ -303,6 +309,33 @@ var img = [];
 
 var maxDb = null;
 var minDb = null;
+
+function draw(samps, min, max, step, time) {
+    pntWidth = Math.round(($(canvas).width() / samps.length));
+    var line = [];
+
+    for(var i = min; i < max; i += step) {
+        var value = samps[i]; 
+        
+        if(value === undefined) {
+            continue;
+        }
+
+        var db = parseFloat(String(value).replace(' ', '').replace('-', ''));
+
+        if(maxDb === null || (100-db) > maxDb) {
+            maxDb = 100-db;
+        }
+
+        if(minDb === null || (100-db) < minDb) {
+            minDb = 100-db;
+        }
+
+        line.push(db);
+    }
+
+    img.push(line);
+}
 
 var drawed = false;
 
