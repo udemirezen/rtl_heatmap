@@ -59,7 +59,7 @@ var fastMode = false;
 var colorMap = ["#2D7B86", "#DB8E47", "#DB5147"];
 
 function setScheme(col1, col2, col3) {
-    colorMap = [col1, col2, col3];
+    colorMap = [col3, col2, col1];
     window.localStorage.setItem("colormap", JSON.stringify(colorMap));
 
     redraw();
