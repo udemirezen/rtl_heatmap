@@ -165,7 +165,7 @@ function parseCSV(file) {
     freqs = [];
     
     Papa.parse(file.prop('files')[0], {
-        worker: true,
+        worker: false,
         skipEmptyLines: true,
         step: function(result) {
             var data = result.data;
