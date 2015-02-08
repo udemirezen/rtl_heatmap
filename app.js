@@ -59,7 +59,7 @@ var fastMode = false;
 var colorMap = ["#2D7B86", "#DB8E47", "#DB5147"];
 
 function setScheme(col1, col2, col3) {
-    colorMap = [col3, col2, col1];
+    colorMap = [col1, col2, col3];
     window.localStorage.setItem("colormap", JSON.stringify(colorMap));
 
     redraw();
@@ -353,7 +353,7 @@ function drawAll() {
     for(var y = 0; y < height; y++) {
         for(var x = 0; x < width; x++) {
             var db = Math.round(img[y][x]);
-            var dbP = ((100-db)-minDb)/(maxDb-minDb);
+            var dbP = ((90-db)-minDb)/(maxDb-minDb);
             var color = scale(dbP).hex();
             ctx.fillStyle = color;
             ctx.fillRect(x*ppw, y*pph, ppw, pph);
