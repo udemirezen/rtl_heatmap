@@ -12,6 +12,9 @@ See [http://kmkeen.com/rtl-power/] for more infos.
 
 ### Installing
 ```bash
+git clone https://github.com/donothingloop/rtl_heatmap.git
+cd rtl_heatmap
 npm install -g bower
-bower install rtl_heatmap
+
+bower install
 ```
