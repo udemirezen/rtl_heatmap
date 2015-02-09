@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $(".button-collapse").sideNav();
 
     if(window.localStorage.getItem("welcomed") === "true") {
         $('.open-file').hide();
