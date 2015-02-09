@@ -10,11 +10,11 @@ $(document).ready(function() {
         fastMode = true;
     }
 
-    if(window.localStorage.getItem("freqnr") !== undefined) {
+    if(window.localStorage.getItem("freqnr") !== null) {
         freqNr = parseInt(window.localStorage.getItem("freqnr"));
     }
 
-    if(window.localStorage.getItem("colormap") !== undefined) {
+    if(window.localStorage.getItem("colormap") !== null) {
         colorMap = JSON.parse(window.localStorage.getItem("colormap"));
     }   
 
