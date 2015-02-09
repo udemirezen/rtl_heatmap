@@ -110,7 +110,7 @@ nav {
 }
 
 .valign-wrapper, .spinner, .spinner-layer, .valign {
-    z-index: 30;
+    z-index: 20;
     position: relative;
 }
 
